@@ -1,0 +1,16 @@
+boto3==1.34.0
+flask==2.3.3
+flask-cors==6.0.1
+python-dotenv==1.0.0
+groq
+requests
+pytesseract
+opencv-python
+pillow
+numpy
+# Twilio para botões interativos
+twilio==8.10.0
+# Baileys para WhatsApp Web
+baileys==0.0.1
+# Selenium para WhatsApp Web
+selenium==4.15.0

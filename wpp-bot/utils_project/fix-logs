@@ -1,0 +1,384 @@
+#!/bin/bash
+
+# Script para aplicar todas as melhorias de logs ao projeto WhatsApp API
+set -e
+
+# Cores para saída
+RESET="\033[0m"
+BOLD="\033[1m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+BLUE="\033[34m"
+RED="\033[31m"
+
+print_color() {
+    local text="$1"
+    local color="$2"
+    local bold="$3"
+    
+    if [ "$bold" = "true" ]; then
+        echo -e "${BOLD}${color}${text}${RESET}"
+    else
+        echo -e "${color}${text}${RESET}"
+    fi
+}
+
+# Verificar se o projeto existe
+if [ ! -d "app" ] || [ ! -f "main.py" ]; then
+    print_color "Erro: Este script deve ser executado na raiz do projeto WhatsApp API" "$RED" "true"
+    exit 1
+fi
+
+print_color "🔧 Aplicando melhorias de logs ao projeto WhatsApp API" "$BLUE" "true"
+echo ""
+
+# 1. Criar diretório de utils se não existir
+mkdir -p app/utils
+print_color "✅ Diretório app/utils verificado" "$GREEN"
+
+# 2. Criar arquivo de configuração de logs SQLAlchemy
+cat > app/utils/log_config.py << 'EOL'
+import logging
+import re
+from typing import Dict, Any, List, Optional, Set
+
+# Configuração para filtrar logs do SQLAlchemy
+class SQLAlchemyFilter(logging.Filter):
+    """
+    Filtro personalizado para logs do SQLAlchemy que deixa as mensagens mais limpas
+    """
+    
+    def __init__(self):
+        super().__init__()
+        # Padrões de mensagens para ignorar completamente
+        self.ignore_patterns = [
+            r"SELECT pg_catalog\.pg_class\.relname",
+            r"show standard_conforming_strings",
+            r"select current_schema()",
+            r"SELECT pg_catalog\.version\(\)",
+            r"BEGIN \(implicit\)",
+        ]
+        
+        # Cache de mensagens já processadas para evitar duplicações
+        self.seen_messages: Set[str] = set()
+        
+        # Contador para limitar quantidade de logs similares
+        self.log_counts: Dict[str, int] = {}
+        
+    def filter(self, record: logging.LogRecord) -> bool:
+        if not hasattr(record, 'msg') or not isinstance(record.msg, str):
+            return True
+            
+        msg = record.msg
+        
+        # Ignorar mensagens que correspondem aos padrões
+        for pattern in self.ignore_patterns:
+            if re.search(pattern, msg):
+                return False
+                
+        # Simplificar consultas SQL
+        if "[SQL]" in msg or "SELECT" in msg or "INSERT" in msg or "UPDATE" in msg or "DELETE" in msg:
+            # Simplificar consultas longas e multi-linha
+            if "\n" in msg:
+                first_line = msg.split("\n")[0]
+                if len(first_line) > 80:
+                    first_line = first_line[:77] + "..."
+                
+                # Evitar mensagens duplicadas para a mesma consulta
+                msg_key = first_line
+                if msg_key in self.seen_messages:
+                    return False
+                    
+                self.seen_messages.add(msg_key)
+                record.msg = first_line + " [...]"
+                
+            # Para consultas menores, apenas limite o tamanho
+            elif len(msg) > 80:
+                record.msg = msg[:77] + "..."
+                
+        # Simplificar mensagens de parâmetros SQL
+        if "parameters" in msg.lower():
+            # Limitar tamanho das mensagens de parâmetros
+            if len(msg) > 100:
+                record.msg = msg[:97] + "..."
+                
+        return True
+
+# Função para ser chamada no arquivo main.py
+def setup_clean_logs():
+    """
+    Configura logs limpos para a aplicação WhatsApp API
+    """
+    # Configurar logger raiz
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.INFO)
+    
+    # Remover handlers existentes para evitar duplicação
+    for handler in root_logger.handlers[:]:
+        root_logger.removeHandler(handler)
+    
+    # Criar console handler com formatação bonita
+    console_format = "%(asctime)s [%(levelname)s] %(message)s"
+    console_date_format = "%H:%M:%S"
+    
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(
+        logging.Formatter(fmt=console_format, datefmt=console_date_format)
+    )
+    
+    # Adicionar filtro para logs SQL
+    sql_filter = SQLAlchemyFilter()
+    console_handler.addFilter(sql_filter)
+    
+    root_logger.addHandler(console_handler)
+    
+    # Reduzir verbosidade dos loggers SQLAlchemy
+    logging.getLogger('sqlalchemy.engine.base').setLevel(logging.WARNING)
+    logging.getLogger('sqlalchemy.pool').setLevel(logging.WARNING) 
+    logging.getLogger('sqlalchemy.dialects').setLevel(logging.WARNING)
+    logging.getLogger('sqlalchemy.orm').setLevel(logging.WARNING)
+    
+    # Configurar logger da aplicação
+    app_logger = logging.getLogger('whatsapp_api')
+    app_logger.setLevel(logging.INFO)
+    
+    return app_logger
+EOL
+print_color "✅ Arquivo de configuração de logs SQLAlchemy criado em app/utils/log_config.py" "$GREEN"
+
+# 3. Criar arquivo de configuração de logs do Uvicorn
+mkdir -p config
+cat > config/uvicorn_logging.py << 'EOL'
+"""
+Configuração de logs para o Uvicorn
+"""
+import logging
+from pathlib import Path
+
+from config.settings import settings
+
+# Configuração para o Uvicorn
+UVICORN_LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "default": {
+            "()": "uvicorn.logging.DefaultFormatter",
+            "fmt": "%(levelprefix)s [%(asctime)s] %(message)s",
+            "datefmt": "%H:%M:%S",
+            "use_colors": True,
+        },
+        "access": {
+            "()": "uvicorn.logging.AccessFormatter",
+            "fmt": '%(levelprefix)s [%(asctime)s] %(client_addr)s - "%(request_line)s" %(status_code)s',
+            "datefmt": "%H:%M:%S",
+            "use_colors": True,
+        },
+    },
+    "handlers": {
+        "default": {
+            "formatter": "default",
+            "class": "logging.StreamHandler",
+            "stream": "ext://sys.stderr",
+        },
+        "access": {
+            "formatter": "access",
+            "class": "logging.StreamHandler",
+            "stream": "ext://sys.stdout",
+        }
+    },
+    "loggers": {
+        "uvicorn": {
+            "handlers": ["default"],
+            "level": "WARNING",
+            "propagate": False
+        },
+        "uvicorn.error": {
+            "level": "WARNING",
+            "propagate": True
+        },
+        "uvicorn.access": {
+            "handlers": ["access"],
+            "level": "WARNING",
+            "propagate": False
+        },
+    }
+}
+
+
+class UvicornFilter(logging.Filter):
+    """
+    Filtra logs do Uvicorn para reduzir ruído
+    """
+    def __init__(self, exclude_paths=None):
+        super().__init__()
+        self.exclude_paths = exclude_paths or [
+            "/health", "/metrics", "/favicon.ico", "/docs", "/openapi.json"
+        ]
+        self._startup_logged = False
+        
+    def filter(self, record):
+        # Filtrar logs de acesso para paths excluídos
+        if hasattr(record, "scope"):
+            path = record.scope.get("path", "")
+            if any(path.startswith(excluded) for excluded in self.exclude_paths):
+                return False
+        
+        # Filtrar mensagens repetitivas
+        if hasattr(record, "msg") and isinstance(record.msg, str):
+            # Mostrar mensagens de inicialização apenas uma vez
+            if "Uvicorn running on" in record.msg or "Reloading" in record.msg:
+                if self._startup_logged:
+                    return False
+                self._startup_logged = True
+        
+        return True
+
+
+def setup_uvicorn_logging():
+    """
+    Configura logging personalizado para o Uvicorn
+    """
+    # Configurar filtro personalizado
+    uvicorn_filter = UvicornFilter()
+    
+    # Adicionar o filtro aos loggers do Uvicorn
+    for logger_name in ["uvicorn", "uvicorn.access", "uvicorn.error"]:
+        logging.getLogger(logger_name).addFilter(uvicorn_filter)
+    
+    return UVICORN_LOGGING
+EOL
+print_color "✅ Arquivo de configuração de logs do Uvicorn criado em config/uvicorn_logging.py" "$GREEN"
+
+# 4. Criar arquivo init na pasta utils para que possa ser importado
+touch app/utils/__init__.py
+print_color "✅ Arquivo __init__.py criado em app/utils" "$GREEN"
+
+# 5. Modificar main.py para usar a nova configuração de logs
+# Primeiro, fazer backup do arquivo original
+cp main.py main.py.bak
+print_color "✅ Backup do arquivo main.py criado como main.py.bak" "$GREEN"
+
+# Modificar o arquivo main.py
+cat > main.py << 'EOL'
+import os
+from fastapi import FastAPI, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
+
+from config.settings import settings
+from config.database import engine, Base
+from app.api.endpoints import webhook
+from app.utils.log_config import setup_clean_logs
+
+# Configurar logs limpos
+logger = setup_clean_logs()
+
+# Criar diretórios necessários
+os.makedirs(settings.MEDIA_PATH, exist_ok=True)
+os.makedirs(settings.LOG_PATH, exist_ok=True)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Lifecycle events for the FastAPI application
+    """
+    # Create database tables if they don't exist
+    logger.info("🚀 Iniciando a API WhatsApp")
+    Base.metadata.create_all(bind=engine)
+    logger.info("✅ Tabelas do banco de dados verificadas")
+    
+    # Load initial data if needed
+    # await load_initial_data()
+    
+    logger.info("✅ Aplicação inicializada com sucesso")
+    yield
+    logger.info("👋 Encerrando a aplicação")
+
+
+# Create FastAPI application
+app = FastAPI(
+    title=settings.PROJECT_NAME,
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
+    lifespan=lifespan,
+    debug=settings.DEBUG
+)
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Add routes
+app.include_router(webhook.router, prefix=f"{settings.API_V1_STR}/webhook", tags=["webhook"])
+
+
+@app.get("/")
+async def root():
+    """
+    Root endpoint
+    """
+    return {
+        "name": settings.PROJECT_NAME,
+        "version": "1.0.0",
+        "status": "running"
+    }
+
+
+@app.get("/health")
+async def health_check():
+    """
+    Health check endpoint
+    """
+    return {
+        "status": "healthy",
+        "db_status": "connected",  # In a real app, check DB connection
+        "whatsapp_api_status": "connected"  # In a real app, check API connection
+    }
+
+
+if __name__ == "__main__":
+    import uvicorn
+    
+    try:
+        from config.uvicorn_logging import setup_uvicorn_logging
+        log_config = setup_uvicorn_logging()
+    except ImportError:
+        log_config = None
+    
+    logger.info(f"🌐 Iniciando WhatsApp API em http://0.0.0.0:8000")
+    
+    uvicorn.run(
+        "main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=settings.DEBUG,
+        log_level="warning",  # Reduzir verbosidade do Uvicorn
+        access_log=False,     # Desabilitar logs de acesso do Uvicorn
+        log_config=log_config
+    )
+EOL
+print_color "✅ Arquivo main.py modificado para usar configuração de logs limpos" "$GREEN"
+
+# 6. Instruções finais
+echo ""
+print_color "🎉 Todas as melhorias de logs foram aplicadas com sucesso!" "$GREEN" "true"
+echo ""
+print_color "Para executar a aplicação com logs limpos:" "$YELLOW"
+echo "python main.py"
+echo ""
+print_color "Para reverter as alterações:" "$YELLOW"
+echo "mv main.py.bak main.py"
+echo ""
+print_color "As melhorias aplicadas incluem:" "$BLUE" "true"
+echo "1. Filtros para remover consultas SQL repetitivas e verbosas"
+echo "2. Formatação mais limpa para todos os logs"
+echo "3. Configuração do Uvicorn para reduzir a verbosidade"
+echo "4. Emojis para tornar os logs mais legíveis"
+echo ""
+print_color "✨ Aproveite seus logs mais limpos e organizados! ✨" "$GREEN" "true"

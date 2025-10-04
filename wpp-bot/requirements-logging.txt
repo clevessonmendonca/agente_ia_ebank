@@ -1,0 +1,23 @@
+# Requisitos para Sistema de Logs Aprimorado
+
+# Bibliotecas base para FastAPI e banco de dados
+fastapi>=0.95.0
+uvicorn>=0.22.0
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.5
+httpx>=0.24.0
+pydantic>=2.0.0
+
+# Bibliotecas específicas para logs
+rich>=13.3.5          # Interface rica para terminal
+coloredlogs>=15.0.1   # Logs coloridos no terminal
+python-json-logger>=2.0.7  # Logs em formato JSON
+pythonjsonlogger>=2.0.0  # Formatter para logs JSON
+
+# Utilitários para monitoramento
+psutil>=5.9.5         # Monitoramento de recursos do sistema
+pytz>=2023.3          # Suporte a fusos horários
+
+# Configuração avançada para HTTPx e logging
+httpcore>=0.18.0
+anyio>=3.7.1

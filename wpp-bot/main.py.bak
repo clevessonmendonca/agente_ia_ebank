@@ -1,0 +1,192 @@
+import os
+from fastapi import FastAPI, Request, Response, Depends
+from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
+from pathlib import Path
+import datetime
+import platform
+
+from config.settings import settings
+from config.database import engine, Base, get_db
+from app.api.endpoints import webhook, admin
+from app.api.router import api_router
+from app.api.exceptions import add_exception_handlers
+from app.services.logger import setup_logging, format_whatsapp_message
+from app.utils.logging_middleware import add_logging_middleware
+from app.utils.metrics import metrics, start_metrics_logging
+from sqlalchemy.orm import Session
+
+# Configuração aprimorada de logging
+logger = setup_logging(
+    log_level=settings.LOG_LEVEL,
+    log_file=Path(settings.LOG_PATH) / "whatsapp_api.log"
+)
+
+# Criar diretórios necessários
+os.makedirs(settings.MEDIA_PATH, exist_ok=True)
+os.makedirs(settings.LOG_PATH, exist_ok=True)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Eventos de ciclo de vida da aplicação FastAPI
+    """
+    # Iniciar banner de startup
+    display_startup_banner()
+    
+    # Criar tabelas do banco de dados se não existirem
+    logger.info(format_whatsapp_message("info", "Iniciando a aplicação WhatsApp API"))
+    Base.metadata.create_all(bind=engine)
+    logger.info(format_whatsapp_message("success", "Tabelas do banco de dados verificadas"))
+    
+    # Iniciar monitoramento de métricas
+    monitor_thread = start_metrics_logging(interval_minutes=30)
+    logger.info(format_whatsapp_message("info", "Monitoramento de métricas iniciado"))
+    
+    # Carregar dados iniciais se necessário
+    # await load_initial_data()
+    
+    logger.info(format_whatsapp_message("success", "Aplicação inicializada com sucesso"))
+    yield
+    logger.info(format_whatsapp_message("info", "Encerrando a aplicação"))
+
+
+# Criar aplicação FastAPI
+app = FastAPI(
+    title=settings.PROJECT_NAME,
+    description="API para integração com o WhatsApp Business API",
+    version="1.0.0",
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
+    docs_url=f"{settings.API_V1_STR}/docs",
+    redoc_url=f"{settings.API_V1_STR}/redoc",
+    lifespan=lifespan,
+    debug=settings.DEBUG
+)
+
+# Adicionar middleware de logging
+add_logging_middleware(
+    app,
+    exclude_paths=["/health", "/metrics", "/static", "/favicon.ico"],
+    log_request_headers=settings.DEBUG,
+    log_response_headers=False,
+    log_request_body=False
+)
+
+# Adicionar middleware CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Adicionar gerenciadores de exceção
+add_exception_handlers(app)
+
+# Adicionar rotas da API
+app.include_router(api_router, prefix=settings.API_V1_STR)
+
+
+@app.get("/")
+async def root():
+    """
+    Endpoint raiz
+    """
+    return {
+        "name": settings.PROJECT_NAME,
+        "version": "1.0.0",
+        "status": "running",
+        "documentation": f"{settings.API_V1_STR}/docs"
+    }
+
+
+@app.get("/health")
+async def health_check(db: Session = Depends(get_db)):
+    """
+    Endpoint de verificação de saúde que retorna o status de todos os componentes
+    """
+    # Verificar conexão com o banco de dados
+    db_status = "connected"
+    try:
+        # Tentativa simples de consulta
+        db.execute("SELECT 1").fetchall()
+    except Exception as e:
+        db_status = f"error: {str(e)}"
+    
+    # Status básico da aplicação
+    return {
+        "status": "healthy",
+        "timestamp": datetime.datetime.now().isoformat(),
+        "environment": settings.ENVIRONMENT,
+        "components": {
+            "api": "running",
+            "database": db_status,
+            "whatsapp_api": "connected"  # Em um app real, verificar conexão com a API
+        },
+        "system_info": {
+            "python_version": platform.python_version(),
+            "platform": platform.platform()
+        }
+    }
+
+
+@app.get("/metrics")
+async def get_metrics(detailed: bool = False):
+    """
+    Endpoint para obter métricas da aplicação
+    """
+    return metrics.get_summary(detailed=detailed)
+
+
+def display_startup_banner():
+    """
+    Exibe um banner visualmente agradável ao iniciar a aplicação
+    """
+    banner = r"""
+ __          ___           _           _                   _    ____ ___ 
+ \ \        / / |         | |         /\                  | |  |  _ \_ _|
+  \ \  /\  / /| |__   __ _| |_ ___   /  \   _ __  _ __   | |  | |_) | | 
+   \ \/  \/ / | '_ \ / _` | __/ __| / /\ \ | '_ \| '_ \  | |  |  __/| | 
+    \  /\  /  | | | | (_| | |_\__ \/ ____ \| |_) | |_) | |_|  | |  _| |_
+     \/  \/   |_| |_|\__,_|\__|___/_/    \_\ .__/| .__/  (_)  |_| |_(_)
+                                           | |   | |                    
+                                           |_|   |_|                    
+    """
+    
+    info = f"""
+    {settings.APP_NAME} v1.0.0
+    --------------------------------------------------------
+    🔧 Ambiente: {getattr(settings, 'ENVIRONMENT', 'development')}
+    🔌 API: http://0.0.0.0:8000{settings.API_V1_STR}
+    📚 Documentação: http://0.0.0.0:8000{settings.API_V1_STR}/docs
+    📝 Logs: {settings.LOG_PATH}
+    🗃️ Banco de dados: PostgreSQL
+    📱 WhatsApp API: Conectado (ID: {settings.PAGE_ID})
+    --------------------------------------------------------
+    """
+    
+    logger.info(f"\n{banner}")
+    for line in info.strip().split("\n"):
+        logger.info(line)
+    logger.info("--------------------------------------------------------")
+
+
+if __name__ == "__main__":
+    import uvicorn
+    
+    # Configurações do Uvicorn ajustadas para logs mais limpos
+    uvicorn_config = {
+        "app": "main:app",
+        "host": "0.0.0.0",
+        "port": 8000,
+        "reload": settings.DEBUG,
+        "log_level": "warning" if not settings.DEBUG else "info",
+        "access_log": False,  # Desabilitar logs de acesso do Uvicorn (usamos nosso middleware)
+        "workers": 1
+    }
+    
+    logger.info(format_whatsapp_message("info", f"Iniciando WhatsApp API em http://0.0.0.0:8000"))
+    
+    uvicorn.run(**uvicorn_config)
