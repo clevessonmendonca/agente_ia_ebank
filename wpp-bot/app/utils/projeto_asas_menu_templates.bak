@@ -1,0 +1,765 @@
+{
+  "greetings": {
+    "welcome": "Olá, {name}! Seja bem-vindo(a) ao PROJETO ASAS!",
+    "returning_user": "Que bom ver você novamente, {name}!"
+  },
+  "menus": {
+    "privacidade": {
+      "title": "Política de Privacidade",
+      "content": "\n\n*PROJETO ASAS GAMA*\n\nOlá, seja bem-vindo(a) ao *PROJETO ASAS*!\n\nÉ um prazer lhe atender aqui!\n\nAntes de iniciarmos nossa interação neste canal, solicitamos que leia nossa *Política de Privacidade* clicando no link abaixo:\n\nLink: https://drive.google.com/file/d/1nLyfVJlf0aU4gHQ9gnXhZYf8votrz9Zj/view\n\nSe estiver de acordo com nossos termos, por favor, clique em \"ACEITO\" para darmos continuidade a este atendimento ou, caso contrário, clique em \"SAIR\".\n\nNão nos custa salientar que, ao aceitar nossos termos, estará contribuindo para que possamos melhorar ainda mais sua experiência conosco.",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "ACEITOU",
+            "title": "ACEITO",
+            "next_menu": "inicial"
+          },
+          {
+            "id": "NEGOU",
+            "title": "SAIR",
+            "action": "encerrar_atendimento"
+          }
+        ]
+      },
+      "extra_actions": []
+    },
+    "inicial": {
+      "title": "Menu Inicial",
+      "content": "\nOlá\n\nQue legal você por aqui!\n\nSou o Assistente Virtual do *PROJETO ASAS* é sempre um prazer lhe atender!\nEspero conseguir sanar todas as suas dúvidas, dar suporte e lhe orientar sobre como participar do *PROJETO*.\n\n*Informações Gerais*\n\n  - Conheça-nos um pouco mais. Aqui você terá acesso às normativas do *PROJETO*, nossa origem, objetivos, valores e nossa metodologia.\n\n*Suporte e Feedback*\n\n  - Tire dúvidas, conheça nossos Contatos Institucionais, nossa Ouvidoria e deixe sua opinião, sugestões e/ou reclamações.\n\n*Como Participar*\n\n  - Saiba como participar de nossos treinos, atividades e eventos. Mantenha-se atualizado com depoimentos e outros registros dos participantes envolvidos com o *PROJETO*.\n\n*Escolha uma das opções abaixo para continuar:*",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "INFO_GERAL",
+            "title": "Informações Gerais",
+            "next_menu": "info_geral"
+          },
+          {
+            "id": "SUPORTE",
+            "title": "Suporte e Feedback",
+            "next_menu": "suporte_feedback"
+          },
+          {
+            "id": "PARTICIPAR",
+            "title": "Participe e Conheça",
+            "next_menu": "participar_menu"
+          }
+        ]
+      },
+      "extra_actions": []
+    },
+    "info_geral": {
+      "title": "Informações Gerais",
+      "content": "*Sobre o PROJETO ASAS*\n\n - Entenda como o projeto surgiu e o que buscamos realizar através do esporte.\n\n*Missão, Visão e Valores*\n\n - Nossos princípios, diretrizes e normativas.\n\n*Metodologia*\n\n - Como trabalhamos para transformar vidas através de esportes coletivos.\n\n*Contatos e Mídias Sociais*\n\n - Nossos canais institucionais de comunicação e mídias sociais.",
+      "options": {
+        "menu_type": "list",
+        "header": "Informações",
+        "footer": "Opções de Abaixo:",
+        "button_text": "Clique aqui",
+        "sections": [
+          {
+            "title": "Opções de serviço",
+            "rows": [
+              {
+                "id": "SOBRE",
+                "title": "Sobre o PROJETO ASAS"
+              },
+              {
+                "id": "MISSAO",
+                "title": "Missão, Visão e Valores"
+              },
+              {
+                "id": "METODO",
+                "title": "Nossa Metodologia"
+              },
+              {
+                "id": "CONTATO",
+                "title": "Contatos Institucionais"
+              },
+              {
+                "id": "CONTAT2",
+                "title": "Mídias Sociais"
+              },
+              {
+                "id": "VOLTAR",
+                "title": "Voltar ao MENU principal"
+              },
+              {
+                "id": "encerrar",
+                "title": "Encerrar atendimento"
+              }
+            ]
+          }
+        ]
+      },
+      "extra_actions": []
+    },
+    "sobre": {
+      "title": "Sobre o PROJETO",
+      "content": "*SOBRE O PROJETO*\n\n*PROJETO SOCIAL* de iniciativa privada, sem fins monetários lucrativos e voltado para a comunidade local e região metropolitana.\n\nO *PROJETO ASAS*, iniciado em 2018, tem como objetivo promover qualidade de vida e bem-estar social através da prática regular de esportes coletivos ou individuais.\n\nOferecemos gratuitamente treinos de vôlei de quadra, com planos de estender para vôlei de praia, futsal, basquete, entre outros.\n\nAtualmente contamos com aproximadamente *duzentos participantes*, jovens de todas as idades e buscamos parcerias para fortalecer o *PROJETO* através de contribuições voluntárias em quaisquer valores, com prestação mensal de contas para todos os envolvidos direta ou indiretamente com o *PROJETO ASAS.*",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "voltar2",
+            "title": "VOLTAR",
+            "next_menu": "info_geral"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "extra_actions": []
+    },
+    "missao": {
+      "title": "Missão, Visão e Valores",
+      "content": "*MISSÃO, VISÃO E VALORES*\n\n*Nossa MISSÃO:* Promover qualidade de vida através da prática regular de esportes coletivos ou individuais.\n\n*Nossa VISÃO:* Formar bons cidadãos e cidadãs, atletas amadores e profissionais.\n\n*Nossos VALORES:* Comprometimento, cooperação e respeito coletivo.",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "voltar2",
+            "title": "VOLTAR",
+            "next_menu": "info_geral"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "extra_actions": []
+    },
+    "metodo": {
+      "title": "Nossa Metodologia",
+      "content": "*NOSSA METODOLOGIA*\n\n_Nossa metodologia baseia-se no princípio de fortalecimento da *PRÁTICA* diretamente alinhada à *TEORIA*, onde os iniciantes em nossas atividades estudam e aprendem as regras, normativas e exigências de cada esporte, aplicando-as em nossos treinos técnicos e táticos, com a repetição necessária em cada uma das etapas neste processo. Alinhado a tudo isso, buscamos fortalecer o comprometimento, o empenho, o foco, a dedicação, a aplicação e o coletivismo na formação das equipes, agregando valores, formando pessoas de bem e abraçando a inclusão social através do esporte, pois acolhemos jovens a partir de doze anos, sempre com autorização e acompanhamento dos pais ou responsáveis. Atualmente participam de nossas atividades alguns jovens da *MELHOR IDADE* com mais de cinquenta anos._",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "voltar2",
+            "title": "VOLTAR",
+            "next_menu": "info_geral"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "extra_actions": []
+    },
+    "contato": {
+      "title": "Contatos Institucionais",
+      "content": "- Encaminharemos a seguir os contatos institucionais do *PROJETO ASAS* para que possam entrar em contato com nossos setores:\n\n - Coordenação\n - Secretaria\n - Comunicação Social\n - Financeiro\n - Patrimônio\n\n- Envie-nos e-mail: asasvoleigama@gmail.com\n\n- Se preferir, ligue-nos a partir de um telefone fixo ou móvel para este contato ou quaisquer dos contatos listados abaixo, você será atendido em nossa *Central de Atendimento Automático* com *URA* _(Unidade de Resposta Audível)_:",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "voltar2",
+            "title": "VOLTAR",
+            "next_menu": "info_geral"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "extra_actions": [
+        {
+          "type": "contact",
+          "name": "ASAS - Coordenação Geral",
+          "phone": "556121951085"
+        },
+        {
+          "type": "contact",
+          "name": "ASAS - Secretaria",
+          "phone": "556121951086"
+        },
+        {
+          "type": "contact",
+          "name": "ASAS - Comunicação Social",
+          "phone": "556121951087"
+        },
+        {
+          "type": "contact",
+          "name": "ASAS - Financeiro",
+          "phone": "556121951088"
+        },
+        {
+          "type": "contact",
+          "name": "ASAS - Patrimônio",
+          "phone": "556121951089"
+        }
+      ]
+    },
+    "midias": {
+      "title": "Mídias Sociais",
+      "content": "Clique nos links abaixo para conhecer nossas *Midias Sociais*: ",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "voltar2",
+            "title": "VOLTAR",
+            "next_menu": "info_geral"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "extra_actions": [
+        {
+          "type": "link",
+          "title": "Site Projeto ASAS",
+          "message": "Clique no link abaixo para ser redirecionado ao nosso *site:*",
+          "url": "https://www.projetoasasgama.com.br",
+          "button_text": "clique aqui"
+        },
+        {
+          "type": "link",
+          "title": "Canal do YouTube",
+          "message": "Clique no link abaixo para ser redirecionado ao nosso *YouTube:*",
+          "url": "https://www.youtube.com/@asasvoleigama",
+          "button_text": "clique aqui"
+        },
+        {
+          "type": "link",
+          "title": "Instagram",
+          "message": "Clique no link abaixo para ser redirecionado ao nosso *Instagram:*",
+          "url": "https://www.instagram.com/asasvoleigama?igsh=Mnh2ZHQxMjF2YnBm",
+          "button_text": "clique aqui"
+        }
+      ]
+    },
+    "suporte_feedback": {
+      "title": "Suporte e Feedback",
+      "content": "\n\n*Suporte e Feedback*\n\n*Dúvidas Frequentes*\n\n - Respostas para as perguntas mais comuns.\n\n*Fale Conosco*\n\n - Canal para entrar em contato com nossa equipe de suporte.\n\n*Ouvidoria*\n\n - Deixe sua opinião, crítica ou sugestão sobre o PROJETO ASAS.\n\nEscolha uma das opções abaixo para continuar:",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "DUVIDAS",
+            "title": "Dúvidas Frequentes",
+            "next_menu": "duvidas"
+          },
+          {
+            "id": "FALE",
+            "title": "Fale Conosco",
+            "next_menu": "fale"
+          },
+          {
+            "id": "OUVIDORIA",
+            "title": "Ouvidoria",
+            "next_menu": "ouvidoria"
+          }
+        ]
+      },
+      "extra_actions": []
+    },
+    "duvidas": {
+      "title": "Dúvidas Frequentes",
+      "content": "Aqui estão as respostas para as perguntas mais frequentes:",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "voltar2",
+            "title": "VOLTAR",
+            "next_menu": "suporte_feedback"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "extra_actions": [
+        {
+          "type": "image",
+          "path": "/home/teletron/Área de Trabalho/project/bot/PROJETO/duvidas1.jpeg"
+        },
+        {
+          "type": "image",
+          "path": "/home/teletron/Área de Trabalho/project/bot/PROJETO/duvidas2.jpeg"
+        }
+      ]
+    },
+    "fale": {
+      "title": "Fale Conosco",
+      "content": "- Encaminharemos a seguir os contatos institucionais do *PROJETO ASAS* para que possam entrar em contato com nossos setores:\n\n - Coordenação\n - Secretaria\n - Comunicação Social\n - Financeiro\n - Patrimônio\n\n- Envie-nos e-mail: asasvoleigama@gmail.com\n\n- Se preferir, ligue-nos a partir de um telefone fixo ou móvel para este contato ou quaisquer dos contatos listados abaixo, você será atendido em nossa *Central de Atendimento Automático* com *URA* _(Unidade de Resposta Audível)_:",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "voltar2",
+            "title": "VOLTAR",
+            "next_menu": "suporte_feedback"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "extra_actions": [
+        {
+          "type": "contact",
+          "name": "Teste",
+          "phone": "556121951085"
+        },
+        {
+          "type": "contact",
+          "name": "ASAS - Secretaria",
+          "phone": "556121951086"
+        },
+        {
+          "type": "contact",
+          "name": "ASAS - Comunicação Social",
+          "phone": "556121951087"
+        },
+        {
+          "type": "contact",
+          "name": "ASAS - Financeiro",
+          "phone": "556121951088"
+        },
+        {
+          "type": "contact",
+          "name": "ASAS - Patrimônio",
+          "phone": "556121951089"
+        }
+      ]
+    },
+    "ouvidoria": {
+      "title": "Ouvidoria",
+      "content": "*OUVIDORIA*\n\nEnvie-nos uma mensagem com sua denuncia, dúvida, opinião, sugestão ou reclamação.\n\nGarantimos sigilo absoluto na condução das tratativas.",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "voltar2",
+            "title": "VOLTAR",
+            "next_menu": "suporte_feedback"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "form": {
+        "type": "free_text",
+        "submit_text": "Enviar",
+        "action": "submit_form"
+      },
+      "extra_actions": []
+    },
+    "participar_menu": {
+      "title": "Participe e Conheça",
+      "content": "*CONHEÇA-NOS, PARTICIPE, APOIE OU INVISTA NO PROJETO ASAS*\n\n*Treinos Abertos ao Público*\n\n- Datas, horários e locais dos treinos gratuitos\n\n*Como Participar*\n\n- Saiba como se inscrever e fazer parte do *PROJETO ASAS*.\n\n*Apoie ou Invista no PROJETO ASAS*\n\n- Faça parte do *PROJETO ASAS*. Apoie ou Invista nesta iniciativa. Conheça nossos parceiros e patrocinadores. Adote um integrante do *PROJETO*\n\n*Galeria de Fotos e Vídeos*\n\n- Registros dos treinos e atividades com nossos participantes.\n\n*Depoimentos*\n\n- Depoimentos dos envolvidos com o *PROJETO ASAS*.",
+      "options": {
+        "menu_type": "list",
+        "header": "Participe e Conheça",
+        "footer": "Opções de Abaixo:",
+        "button_text": "Clique aqui",
+        "sections": [
+          {
+            "title": "Opções de serviço",
+            "rows": [
+              {
+                "id": "TREINOS",
+                "title": "Treinos Abertos"
+              },
+              {
+                "id": "PARTICIPAR",
+                "title": "Como Participar"
+              },
+              {
+                "id": "INVISTA",
+                "title": "Apoie ou invista"
+              },
+              {
+                "id": "GALERIA",
+                "title": "Galeria"
+              },
+              {
+                "id": "DEPOIMENTO",
+                "title": "Depoimentos"
+              },
+              {
+                "id": "VOLTAR",
+                "title": "Voltar ao menu principal"
+              },
+              {
+                "id": "encerrar",
+                "title": "Encerrar atendimento"
+              }
+            ]
+          }
+        ]
+      },
+      "extra_actions": []
+    },
+    "treinos": {
+      "title": "Treinos Abertos",
+      "content": "_Todos os nossos treinos são gratuitos e, para participar ou conhecer nossa metodologia, basta comparecer em quaisquer de nossos treinos abertos ao público geral e apresentar-se ao treinador, condutor ou coordenador sempre presentes nestes, nos locais e horários listados abaixo:_\n\n- Na *Escola Classe 15*, localizada no Setor Norte, próxima ao Corpo de Bombeiros, atrás do Supermercado Condor - Aos sábados das 8h ao meio-dia;\n\n- No *CEF 05* - Gama Oeste - Aos domingos das 8h ao meio-dia;\n\n_Caso queira continuar participando, será necessária a realização de um pré-cadastro online. Para mais informações, retorne ao menu anterior e selecione *Como Participar*._",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "voltar2",
+            "title": "VOLTAR",
+            "next_menu": "participar_menu"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "extra_actions": [
+        {
+          "type": "location",
+          "latitude": "-16.00363263265545",
+          "longitude": "-48.06105367603416",
+          "name": "EC15-GAMA",
+          "address": "Setor Norte, Quadra 02 - Área Especial - Gama, Brasília - DF, 72430-230"
+        },
+        {
+          "type": "location",
+          "latitude": "-16.0153709486732",
+          "longitude": "-48.07848496320848",
+          "name": "CEF05-GAMA",
+          "address": "Setor Oeste, E/Q 26/29 - Gama, Brasília - DF, 72420-265"
+        }
+      ]
+    },
+    "participar": {
+      "title": "Como Participar",
+      "content": "*COMO PARTICIPAR*\n\n- Para continuar participando de nossos treinos gratuitos e abertos à comunidade, por questões de controle, melhor gestão e visando melhorias e manutenção na qualidade destes treinos, será necessário preencher nosso formulário de cadastro online no link a seguir.\n\n- Assim que recebermos a confirmação do preenchimento, para um melhor acompanhamento de nossos informativos e comunicados, você será adicionado(a) no grupo de *INTEGRANTES* oficial do *PROJETO ASAS*.",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "voltar2",
+            "title": "VOLTAR",
+            "next_menu": "participar_menu"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "extra_actions": [
+        {
+          "type": "link",
+          "title": "Formulário de Inscrição",
+          "message": "Para acessar o nosso Formulário de Inscrição e cadastrar-se no PROJETO, clique no link abaixo:",
+          "url": "https://forms.gle/XCMhN6tt8rUd8x6X8",
+          "button_text": "clique aqui"
+        },
+        {
+          "type": "message",
+          "content": "Após preencher o formulário, retorne a essa mensagem e digite \"Pronto\".",
+          "await_response": "pronto"
+        }
+      ]
+    },
+    "participar_confirmacao": {
+      "title": "Confirmação de Participação",
+      "content": "*PROJETO ASAS*\n\nConsidere-se acolhido(a) {name}!\n\nDesejamos que você se sinta bem entre nós, que faça parte das nossas vivências, que encontre oportunidades e condições de aprender e crescer.\n\nEsperamos sinceramente que a sua experiência conosco seja excelente e duradoura.\n\nSinta-se muito bem-vindo(a)!\n\nDivulgue o *PROJETO ASAS*!\n\nSiga-nos, curta e compartilhe nossas mídias sociais (@asasvoleigama). Se preferir, contate-nos por telefone ou envie-nos um e-mail (asasvoleigama@gmail.com).\n\n*#SomosTodosASAS*",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "continuar",
+            "title": "CONTINUAR",
+            "next_menu": "participar_termo"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "notifications": [
+        {
+          "type": "admin_notification",
+          "admin": "556121951085",
+          "message": "O contato número: {phone_number}, informa que preencheu nosso formulário de Cadastro, por favor, acompanhar, confirmar e adicionar este contato no grupo de *INTEGRANTES* do *PROJETO*."
+        },
+        {
+          "type": "admin_notification",
+          "admin": "55999831166",
+          "message": "O contato número: {phone_number}, informa que preencheu nosso formulário de Cadastro, por favor, acompanhar, confirmar e adicionar este contato no grupo de *INTEGRANTES* do *PROJETO*."
+        }
+      ],
+      "extra_actions": []
+    },
+    "participar_termo": {
+      "title": "Termo de Uso de Imagem",
+      "content": "Caso não tenha realizado o download do *TERMO DE USO DE IMAGEM*, acesse o link abaixo, imprima, preencha e entregue à um dos coordenadores, treinadores ou representantes do *PROJETO ASAS* quando vier participar de nossas atividades.",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "continuar",
+            "title": "CONTINUAR",
+            "next_menu": "participar_treinos_info"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "extra_actions": [
+        {
+          "type": "link",
+          "title": "Termo de uso de imagem",
+          "message": "Clique no link abaixo para fazer o download:",
+          "url": "https://docs.google.com/document/d/1O9ulUP6yCmil8-i_7tHi9lBGJGN0vLMg/edit",
+          "button_text": "clique aqui"
+        }
+      ]
+    },
+    "participar_treinos_info": {
+      "title": "Informações sobre Treinos",
+      "content": "Para saber os horários e locais dos treinos, por favor, dirija-se ao menu: *\"Treinos Abertos\"*",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "voltar2",
+            "title": "VOLTAR",
+            "next_menu": "participar_menu"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "extra_actions": []
+    },
+    "invista": {
+      "title": "Apoie ou Invista",
+      "content": "Opção em *DESENVOLVIMENTO*.\n\nSaiba como fortalecer nosso propósito.\n\nApoie, invista ou patrocine o *PROJETO ASAS*.\n\nAdote um *INICIANTE* com contribuições voluntárias e regulares a partir de *R$ 1,00*.\n\nPara mais informações clique no link abaixo e fale com nosso *Financeiro:*\n\n- wa.me/556121951088.",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "voltar2",
+            "title": "VOLTAR",
+            "next_menu": "participar_menu"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "extra_actions": []
+    },
+    "galeria": {
+      "title": "Galeria",
+      "content": "Aqui estão alguns vídeos e imagens do nosso projeto:",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "voltar2",
+            "title": "VOLTAR",
+            "next_menu": "participar_menu"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "extra_actions": [
+        {
+          "type": "image",
+          "path": "/home/teletron/Área de Trabalho/project/bot/PROJETO/imagens-depoimentos/imagem1.jpeg"
+        },
+        {
+          "type": "image",
+          "path": "/home/teletron/Área de Trabalho/project/bot/PROJETO/imagens-depoimentos/imagem2.jpeg"
+        },
+        {
+          "type": "link",
+          "title": "FOTOS E VIDEOS",
+          "message": "Opção em *DESENVOLVIMENTO*. Em breve teremos novidades!",
+          "url": "https://www.instagram.com/asasvoleigama?igsh=Mnh2ZHQxMjF2YnBm",
+          "button_text": "clique aqui"
+        }
+      ]
+    },
+    "depoimento": {
+      "title": "Depoimentos",
+      "content": "Opção em *DESENVOLVIMENTO*.\n\n- Em breve disponibilizaremos alguns depoimentos dos integrantes do *PROJETO ASAS*",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "voltar2",
+            "title": "VOLTAR",
+            "next_menu": "participar_menu"
+          },
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR Atendimento",
+            "action": "menu_avaliacao"
+          }
+        ]
+      },
+      "extra_actions": []
+    },
+    "encerrar_atendimento": {
+      "title": "Encerrar Atendimento",
+      "content": "\n\n- Podemos auxiliar em algo mais?\n\n- Deseja encerrar esse atendimento?",
+      "options": {
+        "menu_type": "button",
+        "buttons": [
+          {
+            "id": "encerrar",
+            "title": "ENCERRAR",
+            "action": "menu_avaliacao"
+          },
+          {
+            "id": "continuar",
+            "title": "CONTINUAR",
+            "next_menu": "inicial"
+          }
+        ]
+      },
+      "extra_actions": []
+    },
+    "menu_avaliacao": {
+      "title": "Avaliação de Atendimento",
+      "content": "*AVALIE NOSSO ATENDIMENTO*\n\nPor favor, avalie este atendimento para que possamos melhorá-lo. Clique no link abaixo e faça sua avaliação.",
+      "options": {
+        "menu_type": "list",
+        "header": "Foi um prazer lhe atender por aqui!",
+        "footer": "Opções de Abaixo:",
+        "button_text": "Clique aqui",
+        "sections": [
+          {
+            "title": "Opções de serviço",
+            "rows": [
+              {
+                "id": "muito_bom",
+                "title": "😁 Muito bom."
+              },
+              {
+                "id": "bom",
+                "title": "😄 Bom."
+              },
+              {
+                "id": "mediano",
+                "title": "🙂 Mediano."
+              },
+              {
+                "id": "ruim",
+                "title": "🥲 Ruim."
+              },
+              {
+                "id": "pessimo",
+                "title": "😓 Péssimo"
+              }
+            ]
+          }
+        ]
+      },
+      "extra_actions": []
+    },
+    "avaliacao_muito_bom": {
+      "title": "Avaliação Muito Boa",
+      "content": "Ficamos felizes com sua avaliação e agradecemos seu feedback positivo!\n\nSalve este contato em sua agenda e envie-nos um *oi* sempre que precisar.\n\nAtendimento encerrado. Até logo!",
+      "notifications": [
+        {
+          "type": "admin_notification",
+          "admin": "556121951085",
+          "message": "Nosso atendimento foi avaliado como:\n\n- *Muito BOM!*"
+        }
+      ],
+      "options": {},
+      "extra_actions": []
+    },
+    "avaliacao_bom": {
+      "title": "Avaliação Boa",
+      "content": "Que bom, agradecemos seu feedback positivo!\n\nSalve este contato em sua agenda e envie-nos um *oi* sempre que precisar.\n\nAtendimento encerrado. Até logo!",
+      "notifications": [
+        {
+          "type": "admin_notification",
+          "admin": "556121951085",
+          "message": "Nosso atendimento foi avaliado como:\n\n- *BOM!*"
+        }
+      ],
+      "options": {},
+      "extra_actions": []
+    },
+    "avaliacao_mediano": {
+      "title": "Avaliação Mediana",
+      "content": "Agradecemos seu feedback!\n\nEstamos apenas no começo e saiba que não mediremos esforços para melhorar nosso atendimento. Envie-nos um *oi* sempre que precisar.\n\nAtendimento encerrado. Até logo!",
+      "notifications": [
+        {
+          "type": "admin_notification",
+          "admin": "556121951085",
+          "message": "Nosso atendimento foi avaliado como:\n\n- *Mediano!*"
+        }
+      ],
+      "options": {},
+      "extra_actions": []
+    },
+    "avaliacao_ruim": {
+      "title": "Avaliação Ruim",
+      "content": "Agradecemos seu feedback e lamentamos profundamente não conseguir lhe atender plenamente.\n\nSaiba que não mediremos esforços na busca por melhorias neste canal de atendimento e em todos os demais meios de comunicação com o *PROJETO ASAS*.\n\nSalientamos que temos uma Ouvidoria à sua disposição.\n\nAtendimento encerrado!",
+      "notifications": [
+        {
+          "type": "admin_notification",
+          "admin": "556121951085",
+          "message": "Nosso atendimento foi avaliado como:\n\n- *RUIM!*"
+        }
+      ],
+      "options": {},
+      "extra_actions": []
+    },
+    "avaliacao_pessimo": {
+      "title": "Avaliação Péssima",
+      "content": "Agradecemos seu feedback e lamentamos profundamente não conseguir lhe atender plenamente.\n\nEstamos apenas no começo e saiba que não mediremos esforços para melhorar nosso atendimento neste e em todos os demais meios de comunicação com o *PROJETO ASAS*.\n\nSalientamos que temos uma *OUVIDORIA* à sua disposição.\n\nEsperamos lhe atender melhor em outra oportunidade, portanto, envie-nos um *oi* sempre que precisar.\n\nAtendimento encerrado!",
+      "notifications": [
+        {
+          "type": "admin_notification",
+          "admin": "556121951085",
+          "message": "Nosso atendimento foi avaliado como:\n\n- *PÉSSIMO!*\n\nRecomendamos acompanhar esse atendimento, identificar as falhas e buscar reverter essa avaliação."
+        }
+      ],
+      "options": {},
+      "extra_actions": []
+    }
+  }
+}
